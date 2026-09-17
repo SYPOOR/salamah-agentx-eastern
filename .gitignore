@@ -1,0 +1,86 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Server-only credentials and local deployment configuration
+.env
+.env.*
+!.env.example
+proxy/node_modules/
+*.ipa
+ai_proxy/.venv/
+ai_proxy/__pycache__/
+
+# Local credentials, signing files and runtime data
+!.env.device.example.json
+**/*Secrets.xcconfig
+*.p12
+*.p8
+*.pem
+*.key
+*.mobileprovision
+*.sqlite
+*.sqlite3
+*.db
+**/__pycache__/
+**/.venv/
+**/xcuserdata/
+*.xcuserstate
+# Private development notes and historical test output
+/docs/validation-logs/
+/docs/screenshots/
+/docs/*result*
+/docs/*summary.json
+/docs/README_V1_ARCHIVE.md
+/docs/ROBOFLOW_LIVE_SETUP.md
+/docs/ASSISTANT_V14.md
+/docs/SPATIAL_V13.md
+/docs/LIVE_STREAM.md
+/docs/IPHONE_DEMO.md
+/docs/VALIDATION.md
+/docs/APP_STORE.md
+# Reproducible training/export artifacts
+/tools/model_source/*.pt
+/tools/model_source/*.mlpackage/
