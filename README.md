@@ -4,11 +4,31 @@
 
 **Industrial safety assistance, built for the worker's point of view.**
 
-Agent X Hackathon — Eastern Province Edition
+**Agent X Hackathon — Eastern Province Edition**
+
+[![Checks](https://github.com/SYPOOR/salamah-agentx-eastern/actions/workflows/checks.yml/badge.svg)](https://github.com/SYPOOR/salamah-agentx-eastern/actions/workflows/checks.yml)
+![Platform](https://img.shields.io/badge/platform-iOS-102E32)
+![Flutter](https://img.shields.io/badge/built_with-Flutter-02569B)
+![Inference](https://img.shields.io/badge/PPE-on_device-006B54)
+
+**[Download on the App Store](https://apps.apple.com/us/app/safetylens-ai/id6812347265)** · [Product gallery](#product-gallery) · [Architecture](#how-it-works) · [Run locally](#run-on-iphone) · [Roadmap](docs/ROADMAP.md)
 
 SafetyLens brings protective equipment checks, work-zone awareness and incident reporting into one iPhone application. A worker can check PPE, see nearby safety zones through the camera, report a hazard by voice and review the resulting records in a local operations dashboard.
 
 The project explores a practical question: how can a phone help workers notice a risk, act on it and leave a useful record without adding another complicated workflow?
+
+## Product gallery
+
+<table>
+  <tr>
+    <td align="center" width="25%"><img src="docs/media/product-overview.png" width="240" alt="Salamah product overview"><br><strong>One field companion</strong></td>
+    <td align="center" width="25%"><img src="docs/media/ppe-and-spatial-view.png" width="240" alt="PPE checking and spatial awareness"><br><strong>Check and observe</strong></td>
+    <td align="center" width="25%"><img src="docs/media/safety-reports.png" width="240" alt="Safety reporting product presentation"><br><strong>Review the records</strong></td>
+    <td align="center" width="25%"><img src="docs/media/voice-assistant.png" width="240" alt="Arabic voice assistant with camera preview"><br><strong>Ask by voice</strong></td>
+  </tr>
+</table>
+
+Product presentation artwork supplied by the project owner. Displayed metrics illustrate the experience; the app calculates its dashboard from locally stored records. Repository features and the distributed App Store build may differ by version.
 
 ## The problem
 
@@ -31,6 +51,49 @@ SafetyLens connects those steps:
 | Operations dashboard | Counts and summaries derived from saved records, with tasks and guided progress. |
 
 The mobile interface is Arabic with right-to-left layout. This repository's documentation is in English. The current app version is **1.4.4 (9)**. iOS is the validated platform; Android remains a future target.
+
+## How it works
+
+```mermaid
+flowchart TB
+    Worker[Worker in the field]
+    Worker --> Camera[Live camera]
+    Worker --> Position[Location and heading]
+    Worker --> Speech[Live speech-to-text]
+
+    subgraph iPhone[On the iPhone]
+        Camera --> Gate[Single-flight frame selection]
+        Gate --> Model[Vision and Core ML]
+        Model --> Rules[PPE and risk rules]
+        Position --> Zones[Zone boundaries and AR overlays]
+        Zones --> Rules
+        Rules --> Alerts[Warnings and feedback]
+        Alerts --> DB[(SQLite records)]
+        DB --> Dashboard[Dashboard and tasks]
+        Speech --> Stop[Worker presses Stop]
+    end
+
+    subgraph Assistant[Optional cloud assistance]
+        Stop --> Gateway[Authenticated HTTPS gateway]
+        Gateway --> Intent[Interpret the command]
+        Intent --> Visual[Analyze one requested frame]
+        Intent --> Reply[Text and generated speech]
+        Visual --> Reply
+    end
+
+    Reply --> Worker
+    Intent --> Saved[Confirmed local action]
+    Saved --> DB
+
+    classDef local fill:#E4F3ED,stroke:#006B54,color:#123A32;
+    classDef cloud fill:#EDF2F8,stroke:#506783,color:#203449;
+    classDef record fill:#FFF4DF,stroke:#A77720,color:#503B17;
+    class Camera,Position,Speech,Gate,Model,Rules,Zones,Alerts,Stop local;
+    class Gateway,Intent,Visual,Reply cloud;
+    class DB,Dashboard,Saved record;
+```
+
+Local sensing continues independently of the assistant. The gateway holds provider credentials; camera streaming and PPE inference remain on the phone. A visual command sends only one selected frame.
 
 ## Designed for the field
 
@@ -115,7 +178,16 @@ Physical-device tests cover camera and spatial paths separately. Unit tests and 
 - Monitoring is foreground-only. This MVP does not provide background site surveillance or emergency dispatch.
 - The assistant's interpretation does not replace the local PPE engine or the site's safety procedures.
 - No employee accounts, face recognition, multi-company backend or production fleet management are implemented.
-- App Store publication and a representative field evaluation are still pending.
+- The App Store link is provided above. A representative field evaluation remains pending; store availability does not establish detection accuracy.
+
+## Repository workflow
+
+Changes use focused commits, pull requests and automated checks. GitHub Actions runs Flutter analysis/tests and Python gateway tests without provider credentials. Device validation remains a separate step for camera, audio, Core ML and AR changes.
+
+- [Contributing](CONTRIBUTING.md): local checks and review expectations.
+- [Roadmap](docs/ROADMAP.md): current capabilities and planned work.
+- [Changelog](CHANGELOG.md): repository milestones.
+- [Security policy](SECURITY.md): credential handling and private reporting.
 
 ## Next steps
 

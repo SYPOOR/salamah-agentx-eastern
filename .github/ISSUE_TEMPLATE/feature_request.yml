@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose an improvement to the field workflow.
+title: "[Feature] "
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: User need
+      description: Who encounters this problem, and in what situation?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Proposed outcome
+      description: Describe the behavior that would solve the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation approach
+      description: How could the improvement be evaluated on a real device or in the field?
